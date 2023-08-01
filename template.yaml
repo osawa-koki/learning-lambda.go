@@ -2,7 +2,7 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
   learning-lambda.go
-  
+
   Sample SAM Template for learning-lambda.go
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
@@ -22,14 +22,14 @@ Resources:
         CatchAll:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /hello
-            Method: GET
+            Path: /{proxy+}
+            Method: ANY
       Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
         Variables:
           PARAM1: VALUE
     Metadata:
       DockerTag: go1.x-v1
-      DockerContext: ./hello-world
+      DockerContext: ./src
       Dockerfile: Dockerfile
 
 Outputs:
