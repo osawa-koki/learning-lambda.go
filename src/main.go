@@ -2,6 +2,9 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"os"
+	"github.com/joho/godotenv"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 )
@@ -13,6 +16,9 @@ var routes = map[string]map[Method]func(events.APIGatewayProxyRequest) (events.A
 		PUT:  handler_hello_put,
 		DELETE: handler_hello_delete,
 	},
+	"/env": {
+		GET: handler_env_get,
+	},
 }
 
 type Method string
@@ -23,10 +29,19 @@ const (
 	DELETE Method = "DELETE"
 )
 
-var invokeCount = 0
+var DOTENV_PARAM_1 string
+var DOTENV_PARAM_2 string
+var DOTENV_PARAM_3 string
 
 func init() {
-	invokeCount = 100
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file.")
+		os.Exit(1)
+	}
+	DOTENV_PARAM_1 = os.Getenv("DOTENV_PARAM_1")
+	DOTENV_PARAM_2 = os.Getenv("DOTENV_PARAM_2")
+	DOTENV_PARAM_3 = os.Getenv("DOTENV_PARAM_3")
 }
 
 func handler_hello_get(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
@@ -57,8 +72,14 @@ func handler_hello_delete(request events.APIGatewayProxyRequest) (events.APIGate
 	}, nil
 }
 
+func handler_env_get(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	return events.APIGatewayProxyResponse{
+		Body:       fmt.Sprintf("DOTENV_PARAM_1: %s\nDOTENV_PARAM_2: %s\nDOTENV_PARAM_3: %s\n", DOTENV_PARAM_1, DOTENV_PARAM_2, DOTENV_PARAM_3),
+		StatusCode: 200,
+	}, nil
+}
+
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	invokeCount++
 	path := request.Path
 	method := Method(request.HTTPMethod)
 	if _, ok := routes[path]; !ok {
