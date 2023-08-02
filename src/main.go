@@ -2,18 +2,18 @@ package main
 
 import (
 	"fmt"
-	"log"
-	"os"
-	"github.com/joho/godotenv"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/joho/godotenv"
+	"log"
+	"os"
 )
 
 var routes = map[string]map[Method]func(events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error){
 	"/hello": {
-		GET:  handler_hello_get,
-		POST: handler_hello_post,
-		PUT:  handler_hello_put,
+		GET:    handler_hello_get,
+		POST:   handler_hello_post,
+		PUT:    handler_hello_put,
 		DELETE: handler_hello_delete,
 	},
 	"/env": {
@@ -22,6 +22,7 @@ var routes = map[string]map[Method]func(events.APIGatewayProxyRequest) (events.A
 }
 
 type Method string
+
 const (
 	GET    Method = "GET"
 	POST   Method = "POST"
