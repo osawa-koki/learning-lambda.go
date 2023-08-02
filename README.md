@@ -50,3 +50,25 @@ sam local start-api
 ```
 
 <http://localhost:3000/api/hello>にリクエストを投げて、`hello world`が返ってくればOKです。  
+
+---
+
+`main`ブランチにプッシュすると、GitHub Actionsが実行されて、Lambdaがデプロイされます。  
+デプロイには以下のGitHubのSecretが必要です。  
+
+| Name | Value |
+| --- | --- |
+| PROJECT_NAME | プロジェクト名 |
+| AWS_ACCESS_KEY_ID | アクセスキーID |
+| AWS_SECRET_ACCESS_KEY | シークレットアクセスキー |
+| AWS_REGION | リージョン名 |
+| LAMBDA_DOTENV | Lambdaで使用する`.env`ファイルの内容 |
+
+---
+
+手動でデプロイする場合は、以下のコマンドを実行します。  
+
+```shell
+sam build --use-container
+sam deploy --stack-name <プロジェクト名>
+```
