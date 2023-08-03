@@ -2,9 +2,15 @@ name: Test Go project
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
+      - develop
+      - issues/*
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
+      - develop
+      - issues/*
 
 jobs:
   build:
