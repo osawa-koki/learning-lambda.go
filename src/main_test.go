@@ -1,10 +1,19 @@
 package main
 
 import (
+	"fmt"
 	"github.com/aws/aws-lambda-go/events"
 	"net/http"
+	"os"
 	"testing"
 )
+
+func TestMain(m *testing.M) {
+	fmt.Println("===== ===== Test starting ===== =====")
+	code := m.Run()
+	fmt.Println("===== ===== Test ended ===== =====")
+	os.Exit(code)
+}
 
 func TestHandler(t *testing.T) {
 	t.Run("Main handler is working.", func(t *testing.T) {
