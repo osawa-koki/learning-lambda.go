@@ -72,3 +72,7 @@ sam local start-api
 sam build --use-container
 sam deploy --stack-name <プロジェクト名>
 ```
+
+## 参考文献
+
+- [Go の AWS Lambda 関数ハンドラー](https://docs.aws.amazon.com/ja_jp/lambda/latest/dg/golang-handler.html)
