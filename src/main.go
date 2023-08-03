@@ -23,19 +23,19 @@ func init() {
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	path := request.Path
 	method := Method(request.HTTPMethod)
-	if _, ok := Routes[path]; !ok {
+	if _, ok := routes[path]; !ok {
 		return events.APIGatewayProxyResponse{
 			Body:       fmt.Sprintf("Not Found"),
 			StatusCode: 404,
 		}, nil
 	}
-	if _, ok := Routes[path][method]; !ok {
+	if _, ok := routes[path][method]; !ok {
 		return events.APIGatewayProxyResponse{
 			Body:       fmt.Sprintf("Method Not Allowed"),
 			StatusCode: 405,
 		}, nil
 	}
-	return Routes[path][method](request)
+	return routes[path][method](request)
 }
 
 func main() {
